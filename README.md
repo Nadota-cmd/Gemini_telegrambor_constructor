@@ -29,6 +29,18 @@ pkg update && pkg upgrade
 pkg install python
 pip install pyTelegramBotAPI requests
 ```
+5. ▶️ Create config and Launch
+- To prevent the phone from killing Termux, you need to enable Wake lock in Termux settings
+Turn off battery optimization
+- Just don't let the phone choke Termux
+- Then create the config
+nano telegrambot.py
+
+- After pasting the code, you need to save (CTRL+O), press enter, and exit (CTRL+X)
+- And launch the code.
+python telegrambot.py #Basically, you can write any name you want: bot.py, github.py
+
+(I might have missed some details about Termux, any other information can be found on the internet)
 
 🇷🇺 : 🤖 Gemini ИИ телеграмм бот конструктор 
 
@@ -58,5 +70,21 @@ pip install pyTelegramBotAPI requests
 pkg update && pkg upgrade
 pkg install python
 pip install pyTelegramBotAPI requests
+
+5. ▶️ Создание конфига, и запуск
+- Что бы телефон не придушил работу Termux надо включить Wake lock в настройках Termux
+- Выключить энергосбережения 
+- Просто не давать телефону душить Termux
+- Потом создание конфига
+```bash
+nano telegrambot.py
+```
+- И после вставки кода надо сохранить(CTRL+O) нажать enter и выйти(CTRL+X)
+- И запуск кода.
+```bash
+python telegrambot.py #Вообщем можно любое имя написать которое вы хотите bot.py, github.py
+```
+
+(Я мог чтото не до рассказать про Termux, всю другую информацию можно поискать в интернете)
 
 
