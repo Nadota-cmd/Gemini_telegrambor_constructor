@@ -34,11 +34,14 @@ pip install pyTelegramBotAPI requests
 Turn off battery optimization
 - Just don't let the phone choke Termux
 - Then create the config
+```bash
 nano telegrambot.py
-
+```
 - After pasting the code, you need to save (CTRL+O), press enter, and exit (CTRL+X)
 - And launch the code.
+```bash
 python telegrambot.py #Basically, you can write any name you want: bot.py, github.py
+```
 
 (I might have missed some details about Termux, any other information can be found on the internet)
 
@@ -70,6 +73,7 @@ python telegrambot.py #Basically, you can write any name you want: bot.py, githu
 pkg update && pkg upgrade
 pkg install python
 pip install pyTelegramBotAPI requests
+```
 
 5. ▶️ Создание конфига, и запуск
 - Что бы телефон не придушил работу Termux надо включить Wake lock в настройках Termux
