@@ -1,57 +1,31 @@
-import telebot
-import requests
+🤖 Gemini AI Telegram Bot Constructor
 
-# get your token from @BotFather in telegram
-TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN' 
+Universal engine for creating your own AI Telegram Bot with custom personalities. Works perfectly on Termux (Android) and PC.
 
-# get your Gemini API Key here https://aistudio.google.com/app/apikey
-KEY = 'YOUR_GEMINI_API_KEY' 
+🚀 Quick Start Guide / Быстрый старт
 
-# add Telegram User IDs who can use this bot
-# you can get your ID from @userinfobot
-ALLOWED_USERS = [12345678, 87654321] 
+Follow these 4 steps to get your bot running:
 
-bot = telebot.TeleBot(TOKEN)
+1. 🔑 Get Telegram Token (BotFather)
+- Open [Telegram](https://t.me/BotFather) and find **@BotFather**.
+- Send `/newbot` command.
+- Give your bot a name and a username.
+- **Copy the API Token** and save it.
 
-def ask_gemini(prompt, system_instruction):
-    # Using Gemini 2.5 Flash
-    url = f"https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key={KEY}"
-    headers = {'Content-Type': 'application/json'}
+2. 🧠 Get Gemini API Key (Google AI)
+- Go to [Google AI Studio](https://aistudio.google.com/app/apikey).
+- Create a new API Key (Gemini 2.5 Flash is recommended).
+- **Copy the Key**.
 
-    payload = {
-        "contents": [{
-            "parts": [{"text": f"{system_instruction}\n\nUser says: {prompt}"}]
-        }]
-    }
+3. 🆔 Find your Telegram ID
+- Open [Telegram](https://t.me/userinfobot) and find **@userinfobot**.
+- Send any message to it.
+- It will give you your **ID** (a long number like `6651958858`). Use this in the `ALLOWED_USERS` list in the code.
 
-    try:
-        res = requests.post(url, headers=headers, json=payload)
-        if res.status_code == 200:
-            return res.json()['candidates'][0]['content']['parts'][0]['text']
-        else:
-            return f"Error Code 63: {res.status_code}"
-    except:
-        return "Connection lost..."
+4. 📱 Setup Termux (Android)
+Open your Termux and run these commands:
+```bash
+pkg update && pkg upgrade
+pkg install python
+pip install pyTelegramBotAPI requests
 
-@bot.message_handler(func=lambda m: m.from_user.id in ALLOWED_USERS)
-def handle_message(m):
-    #set different roles for different users
-    #example:role for the owner
-    if m.from_user.id == ALLOWED_USERS[0]:
-        role = "bot characteristics."
-    #example:role for everyone else
-    else:
-        role = (
-            "also, the bot's characteristics, which you can simply write in ordinary words. "
-            "rules:you can also set rules, like 1. Don't use emojis."
-        )
-
-    bot.send_chat_action(m.chat.id, 'typing')
-    answer = ask_gemini(m.text, role)
-    bot.reply_to(m, answer)
-
-print("launch.")
-bot.polling(none_stop=True)
-
-# Gemini_telegrambor_constructor
-Telegram bot engine powered by Gemini AI. Easy to customize roles, characters, and logic. Works on Termux/Mobile.
