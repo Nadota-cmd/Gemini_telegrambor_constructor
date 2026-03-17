@@ -27,7 +27,8 @@ Open your Termux and run these commands:
 ```bash
 pkg update && pkg upgrade
 pkg install python
-pip install pyTelegramBotAPI requests ```
+pip install pyTelegramBotAPI requests
+```
 
 🇷🇺 : 🤖 Gemini ИИ телеграмм бот конструктор 
 
