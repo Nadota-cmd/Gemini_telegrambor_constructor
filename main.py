@@ -1,13 +1,11 @@
-import requests
+import urllib.request
 import time
 import os
+import random
 
-# Ссылка на RAW файл на твоем GitHub, где лежит просто цифра 0 или 1
-# Например: https://raw.githubusercontent.com/твой_ник/pando/main/trigger.txt
 CONTROL_URL = "https://raw.githubusercontent.com/Nadota-cmd/Gemini_telegrambor_constructor/main/trigger.txt"
 
 def run_troll():
-    # Очищаем экран и ставим кодировку для Windows
     if os.name == 'nt':
         os.system('chcp 65001 > nul')
         os.system('cls')
@@ -30,18 +28,29 @@ def run_troll():
 ⣿⠏⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡯⢸⣿
 ⡏⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⢸⣿
     '''
-    print('\033[92m' + logo + '\033[0m') # Зеленый логотип
+    # В Windows CMD цвета работают не всегда, поэтому добавим проверку
+    if os.name != 'nt':
+        print('\033[92m' + logo + '\033[0m')
+    else:
+        print(logo)
+        
     print("\n[ СИСТЕМНОЕ УВЕДОМЛЕНИЕ ]")
-    print("Привет, от Дарын, если все норм выйдет")
-   
+    print("Привет от Дарына! Твой комп официально прошел проверку на чувство юмора.")
+
+print("Агент Pando запущен и ждет команды...")
+
 while True:
     try:
-        # Проверяем файл на GitHub
-        r = requests.get(CONTROL_URL)
-        if r.text.strip() == "1":
+        # Добавляем случайное число к ссылке, чтобы GitHub отдавал свежий файл
+        no_cache_url = f"{CONTROL_URL}?t={random.random()}"
+        with urllib.request.urlopen(no_cache_url) as response:
+            status = response.read().decode('utf-8').strip()
+            
+        if status == "1":
             run_troll()
-            break # После показа выходим, чтобы не бесить
-    except:
-        pass # Если нет инета, просто молчим
-    
-    time.sleep(60) # Спим 60 секунд, чтобы не грузить систему
+            break 
+    except Exception as e:
+        # Если что-то пошло не так (нет инета), просто тихо спим
+        pass
+
+    time.sleep(120) # Можно даже раз в 30 сек проверять, на SSD это незаметно
