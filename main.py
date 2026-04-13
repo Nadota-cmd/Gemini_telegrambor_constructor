@@ -1,57 +1,57 @@
-import telebot
 import requests
+import time
+import os
 
-# get your token from @BotFather in telegram
-TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN' 
+# Ссылка на RAW файл на твоем GitHub, где лежит просто цифра 0 или 1
+# Например: https://raw.githubusercontent.com/твой_ник/pando/main/trigger.txt
+CONTROL_URL = "ТВОЯ_ССЫЛКА_НА_RAW_FILE"
 
-# get your Gemini API Key here https://aistudio.google.com/app/apikey
-KEY = 'YOUR_GEMINI_API_KEY' 
-
-# add Telegram User IDs who can use this bot
-# you can get your ID from @userinfobot
-ALLOWED_USERS = [12345678, 87654321] 
-
-bot = telebot.TeleBot(TOKEN)
-
-def ask_gemini(prompt, system_instruction):
-    # Using Gemini 2.5 Flash
-    url = f"https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key={KEY}"
-    headers = {'Content-Type': 'application/json'}
-
-    payload = {
-        "contents": [{
-            "parts": [{"text": f"{system_instruction}\n\nUser says: {prompt}"}]
-        }]
-    }
-
-    try:
-        res = requests.post(url, headers=headers, json=payload)
-        if res.status_code == 200:
-            return res.json()['candidates'][0]['content']['parts'][0]['text']
-        else:
-            return f"Error Code 63: {res.status_code}"
-    except:
-        return "Connection lost..."
-
-@bot.message_handler(func=lambda m: m.from_user.id in ALLOWED_USERS)
-def handle_message(m):
-    #set different roles for different users
-    #example:role for the owner
-    if m.from_user.id == ALLOWED_USERS[0]:
-        role = "bot characteristics."
-    #example:role for everyone else
+def run_troll():
+    # Очищаем экран и ставим кодировку для Windows
+    if os.name == 'nt':
+        os.system('chcp 65001 > nul')
+        os.system('cls')
     else:
-        role = (
-            "also, the bot's characteristics, which you can simply write in ordinary words. "
-            "rules:you can also set rules, like 1. Don't use emojis."
-        )
+        os.system('clear')
 
-    bot.send_chat_action(m.chat.id, 'typing')
-    answer = ask_gemini(m.text, role)
-    bot.reply_to(m, answer)
-
-print("launch.")
-bot.polling(none_stop=True)
-
-# Gemini_telegrambor_constructor
-Telegram bot engine powered by Gemini AI. Easy to customize roles, characters, and logic. Works on Termux/Mobile.
+    logo = r'''
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠁⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⡽⣿⣿⣿⣿⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⣿
+⣿⣿⣿⣿⣿⣿⡿⢷⣤⣙⣿⣿⣿⣹⣿⣿⣿⣿⢿⣿⣯⣿⣿⣿⣿⣿⣿⢤⡎⠀⠀⣿
+⣿⣿⣿⣟⠛⠋⣢⡤⣽⣿⣿⠯⠛⠟⠛⠏⠛⠣⡿⣿⡿⣿⣿⣿⣿⣿⣿⢺⠇⠀⠀⣿
+⣿⣿⣿⣿⡩⠽⣻⢿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⣿⣾⣿⣿⣿⣿⠸⠀⠀⠀⣿
+⣿⣿⣿⣿⠛⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠉⠙⣿⣿⣿⣿⡆⣆⠀⠀⣿
+⣿⣿⣿⠛⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠂⢕⣂⣤⢤⣄⠀⠈⣟⣿⣿⣿⣿⡄⠀⣿
+⣿⣿⣿⡙⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⠟⠉⠁⠈⠛⢧⡠⢜⣿⣿⣿⣿⣧⠀⣿
+⣿⣿⣿⢡⣀⡀⠀⠀⠀⠀⢀⠀⢀⣴⣿⠟⣁⠄⠂⣁⣄⠀⠀⢣⢈⢿⣿⣿⣿⡉⠀⣿
+⣿⣿⣿⡟⠉⠛⠻⠿⣶⣄⡀⠉⢰⠞⢁⣨⠖⢿⠿⠉⠉⠁⠀⠀⢇⠘⣿⠝⣻⣇⠀⣿
+⣿⣿⣿⣧⠀⣀⣤⣴⣴⣢⢼⠀⠀⠓⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡏⢆⠃⣿⡀⣿
+⣿⣿⣿⣿⠐⢏⠨⠋⠁⠀⡞⡆⠀⠱⡈⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⢾⡇⠤⢠⣿⠁⣿
+⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⢰⡇⠀⠀⠱⣀⠀⠀⠀⠀⠀⠀⠀⢀⡆⠀⣿⣶⣿⠋⠀⣿
+⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀⢳⠀⠀⠀⠀⠀⢠⡟⠀⠀⣿⣿⣿⣶⡇⣿
+⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠰⣳⣴⠖⢉⠭⠊⠀⠀⠀⠀⠀⠈⠀⠀⠀⣿⣿⣿⣿⡇⣿
+⣿⣿⣿⣿⣿⣿⣷⣦⡤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠄⠀⠀⠀⠀⢠⢻⡿⣿⣿⣷⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣯⡢⡀⠀⢤⡐⢉⡉⠭⠤⠘⠁⡀⠀⠀⠀⢀⡞⠀⣷⡘⢿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⢯⠉⠁⠀⠀⠀⣀⠄⠄⠀⠀⠀⢀⡞⠀⠀⢸⣹⡘⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡗⠒⠒⠚⠉⠁⠀⠀⠀⠀⢠⠞⠀⠀⠀⠀⡏⡇⢩⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⡵⢁⢾⣄⠀⠀⠀⠀⠀⠀⠀⣰⠏⠀⠀⠀⠀⠀⠃⢠⠀⣿
+⣿⣿⣿⣿⣿⣿⣿⢟⠟⡌⠘⢅⣾⢻⠢⢄⣀⣀⣀⡤⠞⠁⠀⠀⠀⠀⠀⠀⡄⠘⠀⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+    '''
+    print('\033[92m' + logo + '\033[0m') # Зеленый логотип
+    print("\n[ СИСТЕМНОЕ УВЕДОМЛЕНИЕ ]")
+    print("Привет, от Дарын, если все норм выйдет")
+   
+while True:
+    try:
+        # Проверяем файл на GitHub
+        r = requests.get(CONTROL_URL)
+        if r.text.strip() == "1":
+            run_troll()
+            break # После показа выходим, чтобы не бесить
+    except:
+        pass # Если нет инета, просто молчим
+    
+    time.sleep(60) # Спим 60 секунд, чтобы не грузить систему
