@@ -4,7 +4,7 @@ import os
 
 # Ссылка на RAW файл на твоем GitHub, где лежит просто цифра 0 или 1
 # Например: https://raw.githubusercontent.com/твой_ник/pando/main/trigger.txt
-CONTROL_URL = "ТВОЯ_ССЫЛКА_НА_RAW_FILE"
+CONTROL_URL = "https://raw.githubusercontent.com/Nadota-cmd/Gemini_telegrambor_constructor/main/trigger.txt"
 
 def run_troll():
     # Очищаем экран и ставим кодировку для Windows
